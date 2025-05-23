@@ -80,4 +80,4 @@ Thumbs.db
 
 # Prisma
 prisma/*.db*
-migrations/
+# Note: migrations/ should be included for PostgreSQL
