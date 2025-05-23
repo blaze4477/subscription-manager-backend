@@ -14,7 +14,7 @@ A Node.js/Express.js backend API for managing subscription services with user au
 
 - **Runtime:** Node.js
 - **Framework:** Express.js
-- **Database:** SQLite with Prisma ORM
+- **Database:** PostgreSQL with Prisma ORM
 - **Authentication:** JWT + bcryptjs
 - **Security:** Helmet, CORS
 - **Logging:** Morgan
@@ -121,7 +121,7 @@ JWT_REFRESH_SECRET=your-refresh-secret-key
 JWT_EXPIRES_IN=7d
 JWT_REFRESH_EXPIRES_IN=30d
 CORS_ORIGIN=https://yourdomain.com
-DATABASE_URL=file:./dev.db
+DATABASE_URL=postgresql://username:password@host:port/database
 ```
 
 ### Production Setup
