@@ -107,8 +107,18 @@ app.use((req, res, next) => {
   next();
 });
 
-// Health check endpoint
+// Simple health check endpoint (for Railway)
 app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK' });
+});
+
+// Ultra-simple ping endpoint
+app.get('/ping', (req, res) => {
+  res.send('pong');
+});
+
+// Detailed health check endpoint
+app.get('/health/detailed', (req, res) => {
   const healthCheck = {
     status: 'ok',
     timestamp: new Date().toISOString(),
