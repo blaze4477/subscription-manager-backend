@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  subscriptions Subscription[]
+  notifications Notification[]
+
+  @@map("users")
+}
+
+model Subscription {
+  id              String   @id @default(cuid())
+  userId          String
+  serviceName     String
+  planType        String
+  cost            Float
+  billingCycle    String   // monthly, yearly, weekly, etc.
+  nextBillingDate DateTime
+  status          String   @default("active") // active, inactive, cancelled, expired
+  category        String   // entertainment, productivity, health, etc.
+  paymentMethod   String   // credit_card, paypal, bank_transfer, etc.
+  autoRenewal     Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relationships
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  // Indexes
+  @@index([userId])
+  @@index([status])
+  @@index([nextBillingDate])
+  @@index([category])
+  @@map("subscriptions")
+}
+
+model Transaction {
+  id             String   @id @default(cuid())
+  subscriptionId String
+  amount         Float
+  date           DateTime @default(now())
+  paymentMethod  String
+  status         String   @default("pending") // pending, completed, failed, refunded
+  receiptUrl     String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relationships
+  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  // Indexes
+  @@index([subscriptionId])
+  @@index([status])
+  @@index([date])
+  @@map("transactions")
+}
+
+model Notification {
+  id         String   @id @default(cuid())
+  userId     String
+  type       String   // reminder, alert, info, warning
+  title      String
+  message    String
+  priority   String   @default("medium") // low, medium, high, urgent
+  readStatus Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relationships
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Indexes
+  @@index([userId])
+  @@index([type])
+  @@index([priority])
+  @@index([readStatus])
+  @@index([createdAt])
+  @@map("notifications")
+}
