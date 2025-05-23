@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "./start.sh",
+    "start": "node deploy.js",
+    "start:simple": "node src/server.js",
     "build": "npx prisma generate",
     "postinstall": "npx prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1"
