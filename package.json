@@ -6,6 +6,7 @@
     "dev": "nodemon src/server.js",
     "start": "node deploy.js",
     "start:simple": "node src/server.js",
+    "start:debug": "node simple-server.js",
     "build": "npx prisma generate",
     "postinstall": "npx prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1"

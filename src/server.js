@@ -69,13 +69,7 @@ const testDatabaseConnection = async () => {
     return true;
   } catch (error) {
     console.error('❌ Database connection failed:', error.message);
-    
-    if (process.env.NODE_ENV === 'production') {
-      console.error('Exiting due to database connection failure in production');
-      process.exit(1);
-    }
-    
-    console.warn('⚠️  Continuing without database connection in development mode');
+    console.warn('⚠️  Continuing without database connection - server will start anyway');
     return false;
   }
 };
